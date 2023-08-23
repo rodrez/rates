@@ -1,5 +1,5 @@
 /**
- * @param {object} options
+ * @param {{}} options
  * @param {string} options.id
  * @param {string} [options.placeholder]
  * @param {string} [options.label]
@@ -114,4 +114,4 @@ function createInput(options = {}) {
     return inputContainer;
 }
 
-export { createInput };
+export {createInput};

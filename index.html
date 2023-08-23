@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dynamic Data Entry</title>
+</head>
+<body>
+<form data-rate="rate-form">
+    {% csrf_token %}
+    <!-- Using this field to access the last_year from js -->
+    <input class="hidden" id="latest-year" value="{{ last_year }}"/>
+    <div class="w-10/12 mx-auto justify-center gap-x-4">
+        <div class="w-full p-4">
+            <div class="flex flex-col gap-y-2">
+                <div data-rate="headers" class="flex gap-x-4 p-4 bg-slate-100 rounded">
+                    <div class="header flex flex-col">
+                        <input type="text" id="header-input" class="rounded border w-52"
+                               name="headers" required/>
+                    </div>
+                </div>
+                <button type="button" data-rate="add-header"
+                        class="w-52 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    Add Tier
+                </button>
+            </div>
+            <div>
+                <textarea id='test' class="w-6/12">
+                </textarea>
+            </div>
+            <br/>
+            <div class="flex flex-col gap-y-4">
+                <section class="flex flex-col gap-y-4"
+                         data-rate="year-ranges"></section>
+            </div>
+            <button type="button" data-rate="add-year-range"
+                    class="w-52 mt-4 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                Add Year Range
+            </button>
+            <button data-rate="update-rate"
+                    class="w-52 mt-4 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                Update Rates
+            </button>
+        </div>
+        <div>
+            <pre id="data-preview" class="font-mono"></pre>
+        </div>
+    </div>
+</form>
+
+<script></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="module" src="js/main.es6"></script>
+</body>
+</html>
