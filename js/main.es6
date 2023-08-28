@@ -9,6 +9,14 @@ import {
 } from "./utils.es6";
 import { createInput } from "./ui.es6";
 
+let queue = [];
+
+const processQueue = () => {
+    queue.forEach(item => {
+
+    })
+}
+
 const Rates = new RateStore("enhanced-rates");
 
 const RateApp = {
@@ -117,10 +125,15 @@ const RateApp = {
                 Rates.removeHeader(rate);
             },
         );
+        // RateApp.rateHeaderEvent(
+        //     "input",
+        //     "[data-rate='header-input']",
+        //     debounce(RateApp.handlers.headerInputChange, 150),
+        // );
         RateApp.rateHeaderEvent(
-            "input",
+            "blur",
             "[data-rate='header-input']",
-            debounce(RateApp.handlers.headerInputChange, 800),
+            RateApp.handlers.headerInputChange
         );
         RateApp.rateSectionEvent(
             "click",
@@ -136,7 +149,13 @@ const RateApp = {
         RateApp.rateRowEvent(
             "keyup",
             "[data-id]",
-            debounce(RateApp.handlers.cellInputChange, 800),
+            // debounce(RateApp.handlers.cellInputChange, 150),
+            Rates.setFocusedInput(cellId, e.target.selectionStart)
+        );
+        RateApp.rateRowEvent(
+            "keyup",
+            "[data-id]",
+            debounce(RateApp.handlers.cellInputChange, 150),
         );
 
         // Adding events
@@ -274,10 +293,11 @@ const RateApp = {
         headerElement.className = "header relative flex flex-col";
         // We must use pointer-events: none on the svg; to allow the click event
         // to pass through to the button element
-        const emptyInput = createInput({
-            className: "hidden",
-        });
-        headerElement.appendChild(emptyInput);
+        // const emptyInput = createInput({
+        //     id: "empty_header",
+        //     className: "opacity-0",
+        // });
+        // headerElement.appendChild(emptyInput);
 
         insertHTML(
             headerElement,
@@ -456,6 +476,10 @@ const RateApp = {
                 return RateApp.createHeader(header);
             }),
         );
+        RateApp.elements.headers.insertAdjacentElement(
+            'afterbegin',
+            createInput({id: 'empty_header', className: 'opacity-0'})
+        )
         RateApp.elements.yearRanges.replaceChildren(
             ...Rates.rates.yearRanges.map((yearRange) => {
                 return RateApp.createSection(yearRange);
@@ -481,5 +505,4 @@ RateApp.init();
 
 //TODO: Broke the updateCell needs fix
 //TODO: Finish backend implementation - 90%
-//TODO: Fix input focus to place cursor at the last position recorded
 //TODO: Add functionality to paste blocks of excel
