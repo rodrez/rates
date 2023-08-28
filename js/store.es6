@@ -164,7 +164,8 @@ export const RateStore = class extends EventTarget {
         return row;
     }
 
-    setFocusedInput(inputID, cursorPosition) {
+    setFocusedInput(options) {
+        const {inputID, cursorPosition} = options
         this.rates.focusedInput = { id: inputID, position: cursorPosition };
         // We don't need to dispatch event because it would be crazy to render
         // the whole page just because the focused input changed.
@@ -187,10 +188,10 @@ export const RateStore = class extends EventTarget {
     /**
      * Removes a header with the specified ID from the rates.
      *
-     * @param {object} params - Object containing the ID of the header to be removed.
-     * @param {string} params.id - ID of the header to be removed.
+     * @param header - Object composed of id and name
      */
-    removeHeader({ id }) {
+    removeHeader(header) {
+        const {id, _name} = header;
         // find the position of the header in the headers array
         const index = this.rates.headers.findIndex(
             (header) => header.id === id,
